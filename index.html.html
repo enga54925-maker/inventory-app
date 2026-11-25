@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>محل عمر الساجر للزي العربي — جرد المخزن والديون</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Arabic Typography: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'Tajawal', 'sans-serif'],
+            display: ['Tajawal', 'Cairo', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              gold: '#D97706',
+              amber: '#F59E0B',
+              navy: '#0F172A',
+              slate: '#1E293B',
+              emerald: '#059669',
+              crimson: '#DC2626',
+              sky: '#0284C7',
+            }
+          },
+          boxShadow: {
+            soft: '0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04)',
+            card: '0 10px 30px -5px rgba(15, 23, 42, 0.08)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      background-color: #F4F6F9;
+      color: #0F172A;
+      overflow-x: hidden;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    /* Custom scrollbar for horizontal tables/tabs */
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #E2E8F0;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94A3B8;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748B;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #FFFFFF !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Toast / Status Banner Container (replaces alert/confirm) -->
+  <div id="toastContainer" class="fixed bottom-4 left-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none no-print"></div>
+
+  <!-- Top Brand Header & Navigation -->
+  <header class="bg-brand-navy text-white shadow-lg border-b-4 border-brand-amber sticky top-0 z-30 no-print">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-3">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        <!-- Brand Identity -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center font-extrabold text-xl shadow-md shrink-0">
+              ع
+            </div>
+            <div>
+              <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight text-amber-300 leading-tight">
+                محل عمر الساجر للزي العربي
+              </h1>
+              <p class="text-xs text-slate-300">
+                نظام جرد المخزن ومتابعة الديون بالدولار ($) والدينار العراقي (د.ع)
+              </p>
+            </div>
+          </div>
+          <div class="lg:hidden flex items-center gap-1.5">
+            <span id="saveIndicatorMobile" class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-full font-semibold">
+              سحابي نشط
+            </span>
+          </div>
+        </div>
+
+        <!-- Primary Navigation Tabs -->
+        <nav class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 lg:pb-0" role="tablist" aria-label="أقسام النظام">
+          <button
+            id="tab-inventory"
+            data-tab="inventory"
+            onclick="switchTab('inventory')"
+            class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer bg-amber-500 text-slate-950 shadow"
+          >
+            <span>📦</span>
+            <span>جرد المخزن</span>
+          </button>
+
+          <button
+            id="tab-usd"
+            data-tab="usd"
+            onclick="switchTab('usd')"
+            class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-100"
+          >
+            <span>💵</span>
+            <span>الديون بالدولار ($)</span>
+          </button>
+
+          <button
+            id="tab-iqd"
+            data-tab="iqd"
+            onclick="switchTab('iqd')"
+            class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-100"
+          >
+            <span>🇮🇶</span>
+            <span>الديون بالدينار العراقي (د.ع)</span>
+          </button>
+
+          <button
+            id="tab-overview"
+            data-tab="overview"
+            onclick="switchTab('overview')"
+            class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-100"
+          >
+            <span>📊</span>
+            <span>ملخص ولوحة التحكم</span>
+          </button>
+        </nav>
+
+        <!-- Backup & Reset Controls -->
+        <div class="hidden lg:flex items-center gap-2 shrink-0">
+          <span id="cloudStatusDesktop" class="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 whitespace-nowrap">
+            ☁️ جاري الاتصال بالسحابة...
+          </span>
+          <button
+            onclick="manualCloudSync()"
+            title="مزامنة وتحديث فوري مع السحابة"
+            class="px-3 py-2 rounded-xl text-xs font-bold bg-sky-900/80 hover:bg-sky-800 text-sky-200 border border-sky-700 transition cursor-pointer"
+          >
+            مزامنة سحابية
+          </button>
+          <button
+            onclick="exportJSON()"
+            title="تصدير نسخة احتياطية JSON"
+            class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition cursor-pointer"
+          >
+            نسخة JSON
+          </button>
+          <button
+            onclick="exportCSV()"
+            title="تصدير البيانات بصيغة CSV / Excel"
+            class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 transition cursor-pointer"
+          >
+            تصدير CSV
+          </button>
+          <button
+            onclick="openResetModal()"
+            title="استعادة البيانات الأصلية من جداول الإكسل"
+            class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-950/80 hover:bg-rose-900 text-rose-200 border border-rose-800/70 transition cursor-pointer"
+          >
+            استعادة الأصل
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 space-y-6">
+
+    <!-- Mobile Utility Bar for Export/Reset -->
+    <div class="flex lg:hidden flex-wrap items-center justify-between gap-2 bg-white p-2.5 rounded-2xl shadow-soft border border-slate-200/80 no-print">
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span id="cloudStatusMobileBar" class="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-sky-50 text-sky-800 border border-sky-200">
+          ☁️ اتصال سحابي
+        </span>
+        <button onclick="manualCloudSync()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-100 text-sky-900 border border-sky-300">
+          مزامنة
+        </button>
+        <button onclick="exportJSON()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+          نسخة JSON
+        </button>
+        <button onclick="exportCSV()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+          تصدير CSV
+        </button>
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">
+          طباعة
+        </button>
+      </div>
+      <button onclick="openResetModal()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+        استعادة البيانات الأصلية
+      </button>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: INVENTORY (جرد المخزن)                                          -->
+    <!-- ===================================================================== -->
+    <section id="section-inventory" class="tab-section space-y-5">
+      <!-- Top Summary Cards matching Image 1 -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Remaining in Stock -->
+        <div class="bg-sky-100 border-2 border-sky-300 rounded-2xl p-4 sm:p-5 shadow-soft flex items-center justify-between">
+          <div>
+            <p class="text-xs sm:text-sm font-bold text-sky-900 mb-1">الباقي في المخزن</p>
+            <p id="invSummaryRemaining" class="text-3xl sm:text-4xl font-extrabold text-slate-900 tabular-nums">5,431</p>
+            <p id="invRemainingModeLabel" class="text-[11px] text-sky-800 mt-1 font-semibold">إجمالي الجرد المسجل (5,431)</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-900 flex items-center justify-center text-2xl font-extrabold">
+            📦
+          </div>
+        </div>
+
+        <!-- Total Purchased -->
+        <div class="bg-orange-100 border-2 border-orange-300 rounded-2xl p-4 sm:p-5 shadow-soft flex items-center justify-between">
+          <div>
+            <p class="text-xs sm:text-sm font-bold text-orange-950 mb-1">عدد الشراء</p>
+            <p id="invSummaryPurchased" class="text-3xl sm:text-4xl font-extrabold text-slate-900 tabular-nums">5,928</p>
+            <p id="invPurchasedModeLabel" class="text-[11px] text-orange-900 mt-1 font-semibold">إجمالي الشراء المسجل (5,928)</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-orange-500/20 text-orange-950 flex items-center justify-center text-2xl font-extrabold">
+            📥
+          </div>
+        </div>
+
+        <!-- Total Sold -->
+        <div class="bg-lime-100 border-2 border-lime-400 rounded-2xl p-4 sm:p-5 shadow-soft flex items-center justify-between">
+          <div>
+            <p class="text-xs sm:text-sm font-bold text-lime-950 mb-1">عدد البيع</p>
+            <p id="invSummarySold" class="text-3xl sm:text-4xl font-extrabold text-slate-900 tabular-nums">487</p>
+            <p id="invSoldModeLabel" class="text-[11px] text-lime-900 mt-1 font-semibold">إجمالي البيع المسجل (487)</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-lime-600/20 text-lime-950 flex items-center justify-center text-2xl font-extrabold">
+            📤
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Controls & Totals Mode Toggle -->
+      <div class="bg-white rounded-2xl p-4 shadow-soft border border-slate-200/80 flex flex-col md:flex-row md:items-center md:justify-between gap-3 no-print">
+        <div class="flex flex-col sm:flex-row gap-2.5 flex-1">
+          <div class="relative flex-1">
+            <input
+              id="invSearchInput"
+              type="text"
+              oninput="renderInventory()"
+              placeholder="ابحث عن نوع الزي أو القماش (مثال: الطواش، الريادة، البلكات)..."
+              class="w-full pr-10 pl-4 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm bg-slate-50 focus:bg-white transition"
+            />
+            <span class="absolute right-3 top-2.5 text-slate-400 text-base">🔍</span>
+          </div>
+
+          <button
+            id="invLowStockBtn"
+            onclick="toggleLowStockFilter()"
+            class="px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-slate-300 bg-white hover:bg-amber-50 text-slate-700 transition cursor-pointer whitespace-nowrap"
+          >
+            ⚠️ المخزون المنخفض (&lt; 70)
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button
+            id="totalsModeToggle"
+            onclick="toggleInventoryTotalsMode()"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 transition cursor-pointer"
+            title="التبديل بين مجاميع الشيت الأصلية وحساب مجموع الصفوف الظاهرة"
+          >
+            وضع المجاميع: <span id="totalsModeText">مجاميع الشيت الأصلية</span>
+          </button>
+
+          <button
+            onclick="openAddInventoryModal()"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-navy hover:bg-slate-800 text-amber-300 shadow transition cursor-pointer flex items-center gap-1.5"
+          >
+            <span>➕</span>
+            <span>إضافة صنف جديد</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Inventory Table matching Excel Sheet Layout -->
+      <div class="bg-white rounded-2xl shadow-card border border-slate-200/80 overflow-hidden">
+        <div class="bg-amber-300 border-b-2 border-amber-400 px-4 py-3 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-slate-950 text-base sm:text-lg">مجموع جرد المخزن — محل عمر الساجر للزي العربي</span>
+          </div>
+          <span id="invRowCountBadge" class="text-xs font-extrabold bg-slate-950 text-amber-300 px-3 py-1 rounded-full">
+            9 أصناف
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse min-w-[780px]">
+            <thead>
+              <tr class="bg-slate-100 border-b-2 border-slate-300 text-slate-800 text-xs sm:text-sm font-extrabold">
+                <th class="py-3 px-3 text-center w-14 border-l border-slate-200">ت</th>
+                <th class="py-3 px-4 border-l border-slate-200">النوع</th>
+                <th class="py-3 px-3 text-center bg-sky-100/80 text-sky-950 border-l border-slate-200">الباقي في المخزن</th>
+                <th class="py-3 px-3 text-center bg-orange-100/80 text-orange-950 border-l border-slate-200">عدد الشراء</th>
+                <th class="py-3 px-3 text-center bg-lime-100/80 text-lime-950 border-l border-slate-200">عدد البيع</th>
+                <th class="py-3 px-3 text-center no-print">تحكم سريع وتعديل</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody" class="divide-y divide-slate-200 text-sm">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: USD DEBTS (الديون بالدولار $)                                  -->
+    <!-- ===================================================================== -->
+    <section id="section-usd" class="tab-section hidden space-y-5">
+      <!-- Top Brand Banner matching IQD Debts & Mobile Screenshots -->
+      <div class="bg-amber-400 text-slate-950 rounded-2xl py-4 px-5 text-center shadow-soft border-2 border-amber-500">
+        <h2 class="text-xl sm:text-2xl font-extrabold">مـحـل عـمـر الـسـاجـر للـزي الـعـربـي</h2>
+        <p class="text-xs sm:text-sm font-bold text-slate-900/80 mt-0.5">سجل الديون والتسديدات بالدولار الأمريكي ($)</p>
+      </div>
+
+      <!-- Agent Summary Header Grid matching IQD Debts (الباقي | مجموع التسديد | مجموع مبلغ الشراء | اسم الوكيل) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="bg-sky-100 border-2 border-sky-300 rounded-2xl p-4 shadow-soft flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-sky-900">اسم الوكيل</span>
+          <span id="usdCurrentAgentName" class="text-xl sm:text-2xl font-extrabold text-slate-950 mt-1">مجموع الديون الكلي</span>
+        </div>
+
+        <div class="bg-amber-200 border-2 border-amber-400 rounded-2xl p-4 shadow-soft flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-amber-950">مجموع مبلغ الشراء</span>
+          <span id="usdTotalPurchaseDisplay" class="text-xl sm:text-2xl font-extrabold text-rose-700 tabular-nums mt-1">$ 26,036</span>
+        </div>
+
+        <div class="bg-lime-300 border-2 border-lime-500 rounded-2xl p-4 shadow-soft flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-lime-950">مجموع التسديد</span>
+          <span id="usdTotalPaymentDisplay" class="text-xl sm:text-2xl font-extrabold text-rose-700 tabular-nums mt-1">$ 0</span>
+        </div>
+
+        <div class="bg-red-600 border-2 border-red-700 rounded-2xl p-4 shadow-soft flex flex-col justify-between text-white">
+          <span class="text-xs font-extrabold text-red-100">الباقي</span>
+          <span id="usdRemainingDisplay" class="text-xl sm:text-2xl font-extrabold tabular-nums mt-1">$ 26,036</span>
+        </div>
+      </div>
+
+      <!-- Action Bar for USD Transactions & Agent Management -->
+      <div class="bg-white rounded-2xl p-4 shadow-soft border border-slate-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 no-print">
+        <div class="flex items-center gap-2 flex-wrap">
+          <button
+            onclick="openAddUsdTxModal('purchase')"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow transition cursor-pointer flex items-center gap-1.5"
+          >
+            <span>🧾</span>
+            <span>إضافة مبلغ شراء ($)</span>
+          </button>
+
+          <button
+            onclick="openAddUsdTxModal('payment')"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow transition cursor-pointer flex items-center gap-1.5"
+          >
+            <span>✅</span>
+            <span>إضافة مبلغ تسديد ($)</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            onclick="openAddAgentModal('usd')"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition cursor-pointer"
+          >
+            + إضافة وكيل جديد
+          </button>
+          <button
+            id="usdEditAgentBtn"
+            onclick="openEditAgentModal('usd')"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 transition cursor-pointer"
+          >
+            ✏️ تعديل اسم الوكيل
+          </button>
+          <button
+            id="usdDeleteAgentBtn"
+            onclick="openDeleteAgentModal('usd')"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition cursor-pointer"
+          >
+            🗑️ حذف الوكيل
+          </button>
+        </div>
+      </div>
+
+      <!-- USD Ledger Table matching IQD Ledger Layout -->
+      <div class="bg-white rounded-2xl shadow-card border border-slate-200/80 overflow-hidden">
+        <div class="bg-slate-500 text-white px-4 py-2.5 flex items-center justify-between">
+          <span class="font-extrabold text-sm sm:text-base">تفاصيل حركات الشراء والتسديد للوكيل: <span id="usdTableAgentTitle" class="text-amber-300">مجموع الديون الكلي</span></span>
+          <span id="usdTxCountBadge" class="text-xs font-bold bg-slate-900/60 px-3 py-1 rounded-full">0 حركة</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse min-w-[740px]">
+            <thead>
+              <tr class="bg-slate-400 text-slate-950 text-xs sm:text-sm font-extrabold border-b-2 border-slate-500">
+                <th class="py-3 px-3 text-center w-14 border-l border-slate-500/40">م</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">تاريخ الشراء</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">مبلغ الشراء</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">مبلغ التسديد</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">تاريخ التسديد</th>
+                <th class="py-3 px-3 text-center no-print">حذف</th>
+              </tr>
+            </thead>
+            <tbody id="usdLedgerTableBody" class="divide-y divide-slate-200 text-sm">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bottom Agent Selector Pills matching IQD Debts -->
+      <div class="bg-white rounded-2xl p-3 shadow-soft border border-slate-200/80 no-print">
+        <div class="text-xs font-extrabold text-slate-500 mb-2 px-1">قائمة الوكلاء بالدولار (اختر وكيلاً أو مجموع الديون الكلي):</div>
+        <div id="usdAgentTabsContainer" class="flex items-center gap-2 overflow-x-auto pb-1">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: IQD DEBTS (الديون بالدينار العراقي د.ع)                        -->
+    <!-- ===================================================================== -->
+    <section id="section-iqd" class="tab-section hidden space-y-5">
+      <!-- Top Brand Banner matching Images 3 & 4 -->
+      <div class="bg-amber-400 text-slate-950 rounded-2xl py-4 px-5 text-center shadow-soft border-2 border-amber-500">
+        <h2 class="text-xl sm:text-2xl font-extrabold">مـحـل عـمـر الـسـاجـر للـزي الـعـربـي</h2>
+        <p class="text-xs sm:text-sm font-bold text-slate-900/80 mt-0.5">سجل الديون والتسديدات بالدينار العراقي (د.ع)</p>
+      </div>
+
+      <!-- Agent Summary Header Grid matching Image 3 & 4 (الباقي | مجموع التسديد | مجموع مبلغ الشراء | اسم الوكيل) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="bg-sky-100 border-2 border-sky-300 rounded-2xl p-4 shadow-soft flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-sky-900">اسم الوكيل</span>
+          <span id="iqdCurrentAgentName" class="text-xl sm:text-2xl font-extrabold text-slate-950 mt-1">حارث جمله</span>
+        </div>
+
+        <div class="bg-amber-200 border-2 border-amber-400 rounded-2xl p-4 shadow-soft flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-amber-950">مجموع مبلغ الشراء</span>
+          <span id="iqdTotalPurchaseDisplay" class="text-xl sm:text-2xl font-extrabold text-rose-700 tabular-nums mt-1">32,318,000 د.ع</span>
+        </div>
+
+        <div class="bg-lime-300 border-2 border-lime-500 rounded-2xl p-4 shadow-soft flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-lime-950">مجموع التسديد</span>
+          <span id="iqdTotalPaymentDisplay" class="text-xl sm:text-2xl font-extrabold text-rose-700 tabular-nums mt-1">22,784,000 د.ع</span>
+        </div>
+
+        <div class="bg-red-600 border-2 border-red-700 rounded-2xl p-4 shadow-soft flex flex-col justify-between text-white">
+          <span class="text-xs font-extrabold text-red-100">الباقي</span>
+          <span id="iqdRemainingDisplay" class="text-xl sm:text-2xl font-extrabold tabular-nums mt-1">9,534,000 د.ع</span>
+        </div>
+      </div>
+
+      <!-- Action Bar for IQD Transactions -->
+      <div class="bg-white rounded-2xl p-4 shadow-soft border border-slate-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 no-print">
+        <div class="flex items-center gap-2 flex-wrap">
+          <button
+            onclick="openAddIqdTxModal('purchase')"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow transition cursor-pointer flex items-center gap-1.5"
+          >
+            <span>🧾</span>
+            <span>إضافة مبلغ شراء (دين جديد)</span>
+          </button>
+
+          <button
+            onclick="openAddIqdTxModal('payment')"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow transition cursor-pointer flex items-center gap-1.5"
+          >
+            <span>✅</span>
+            <span>إضافة مبلغ تسديد</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            onclick="openAddAgentModal('iqd')"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition cursor-pointer"
+          >
+            + إضافة وكيل جديد
+          </button>
+          <button
+            id="iqdEditAgentBtn"
+            onclick="openEditAgentModal('iqd')"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 transition cursor-pointer"
+          >
+            ✏️ تعديل اسم الوكيل
+          </button>
+          <button
+            id="iqdDeleteAgentBtn"
+            onclick="openDeleteAgentModal('iqd')"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition cursor-pointer"
+          >
+            🗑️ حذف الوكيل
+          </button>
+        </div>
+      </div>
+
+      <!-- IQD Ledger Table matching Images 3, 4, and 5 -->
+      <div class="bg-white rounded-2xl shadow-card border border-slate-200/80 overflow-hidden">
+        <div class="bg-slate-500 text-white px-4 py-2.5 flex items-center justify-between">
+          <span class="font-extrabold text-sm sm:text-base">تفاصيل حركات الشراء والتسديد للوكيل: <span id="iqdTableAgentTitle" class="text-amber-300">حارث جمله</span></span>
+          <span id="iqdTxCountBadge" class="text-xs font-bold bg-slate-900/60 px-3 py-1 rounded-full">12 حركة</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse min-w-[740px]">
+            <thead>
+              <tr class="bg-slate-400 text-slate-950 text-xs sm:text-sm font-extrabold border-b-2 border-slate-500">
+                <th class="py-3 px-3 text-center w-14 border-l border-slate-500/40">م</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">تاريخ الشراء</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">مبلغ الشراء</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">مبلغ التسديد</th>
+                <th class="py-3 px-4 text-center border-l border-slate-500/40">تاريخ التسديد</th>
+                <th class="py-3 px-3 text-center no-print">حذف</th>
+              </tr>
+            </thead>
+            <tbody id="iqdLedgerTableBody" class="divide-y divide-slate-200 text-sm">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bottom Agent Tabs matching Images 3, 4, 5 -->
+      <div class="bg-white rounded-2xl p-3 shadow-soft border border-slate-200/80 no-print">
+        <div class="text-xs font-extrabold text-slate-500 mb-2 px-1">قائمة الوكلاء (اختر وكيلاً لعرض حسابه):</div>
+        <div id="iqdAgentTabsContainer" class="flex items-center gap-2 overflow-x-auto pb-1">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: OVERVIEW / DASHBOARD (ملخص ولوحة التحكم)                      -->
+    <!-- ===================================================================== -->
+    <section id="section-overview" class="tab-section hidden space-y-5">
+      <div class="bg-gradient-to-l from-brand-navy to-slate-800 text-white rounded-2xl p-6 shadow-card border-b-4 border-amber-400">
+        <h2 class="text-xl sm:text-2xl font-extrabold text-amber-300">لوحة التحكم الشاملة — محل عمر الساجر للزي العربي</h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">نظرة سريعة على حالة المخزون والديون بالعملتين (الدولار الأمريكي والدينار العراقي)</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-2xl p-5 shadow-soft border-t-4 border-sky-500">
+          <div class="text-xs font-bold text-slate-500">المخزون المتبقي الحالي</div>
+          <div id="dashInvRemaining" class="text-3xl font-extrabold text-slate-900 tabular-nums mt-1">5,431</div>
+          <div class="text-xs text-slate-500 mt-2">
+            إجمالي الشراء: <span id="dashInvPurchased" class="font-bold text-orange-700 tabular-nums">5,928</span> |
+            إجمالي البيع: <span id="dashInvSold" class="font-bold text-lime-700 tabular-nums">487</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-soft border-t-4 border-red-600">
+          <div class="text-xs font-bold text-slate-500">مجموع الديون بالدولار ($)</div>
+          <div id="dashUsdTotal" class="text-3xl font-extrabold text-red-600 tabular-nums mt-1">$ 26,036</div>
+          <div class="text-xs text-slate-500 mt-2">مطابق لكشف مجموع الديون الكلي بالدولار</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-soft border-t-4 border-amber-500">
+          <div class="text-xs font-bold text-slate-500">الباقي من ديون الدينار العراقي (حارث جمله / الكل)</div>
+          <div id="dashIqdRemaining" class="text-3xl font-extrabold text-amber-700 tabular-nums mt-1">9,534,000 د.ع</div>
+          <div class="text-xs text-slate-500 mt-2">
+            شراء: <span id="dashIqdPurchased" class="font-bold text-slate-800 tabular-nums">32,318,000</span> |
+            تسديد: <span id="dashIqdPaid" class="font-bold text-emerald-700 tabular-nums">22,784,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Summary Table of All IQD Agents -->
+      <div class="bg-white rounded-2xl shadow-soft border border-slate-200/80 overflow-hidden">
+        <div class="px-5 py-3.5 bg-slate-50 border-b border-slate-200 font-extrabold text-slate-800">
+          ملخص حسابات الوكلاء بالدينار العراقي (د.ع)
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-xs font-extrabold text-slate-700 border-b border-slate-200">
+                <th class="py-3 px-4">اسم الوكيل</th>
+                <th class="py-3 px-4 text-center">مجموع الشراء</th>
+                <th class="py-3 px-4 text-center">مجموع التسديد</th>
+                <th class="py-3 px-4 text-center">الباقي</th>
+                <th class="py-3 px-4 text-center">الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="overviewIqdAgentsBody" class="divide-y divide-slate-200 text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-4 px-4 text-center text-xs text-slate-500 mt-8 no-print">
+    <p class="font-bold text-slate-700">محل عمر الساجر للزي العربي — نظام الجرد والحسابات السحابي</p>
+    <p id="cloudFooterStatus" class="mt-0.5 text-slate-500">يتم حفظ البيانات ومزامنتها سحابياً تلقائياً مع إمكانية التصدير واستعادة البيانات الأصلية.</p>
+    <p id="cloudUserIdInfo" class="mt-1 text-[11px] text-slate-400 break-all"></p>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODALS (Add/Edit Inventory, Add USD Entry, Add IQD Tx, Add Agent, Reset) -->
+  <!-- ===================================================================== -->
+
+  <!-- 1. Add / Edit Inventory Item Modal -->
+  <div id="inventoryModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-brand-navy text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 id="inventoryModalTitle" class="font-extrabold text-base text-amber-300">إضافة صنف جديد للمخزن</h3>
+        <button onclick="closeModal('inventoryModal')" class="text-slate-300 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <form id="inventoryForm" onsubmit="handleInventorySubmit(event)" class="p-5 space-y-4">
+        <input type="hidden" id="invEditId" />
+        <div>
+          <label class="block text-xs font-extrabold text-slate-700 mb-1">النوع (اسم الصنف / القماش)</label>
+          <input id="invNameInput" type="text" required placeholder="مثال: الطواش فلات ساده" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 outline-none text-sm" />
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-extrabold text-sky-900 mb-1">الباقي بالمخزن</label>
+            <input id="invRemainingInput" type="number" step="1" required class="w-full px-3 py-2 rounded-xl border border-sky-300 bg-sky-50/50 font-bold text-sm tabular-nums" />
+          </div>
+          <div>
+            <label class="block text-xs font-extrabold text-orange-900 mb-1">عدد الشراء</label>
+            <input id="invPurchasedInput" type="number" step="1" required class="w-full px-3 py-2 rounded-xl border border-orange-300 bg-orange-50/50 font-bold text-sm tabular-nums" />
+          </div>
+          <div>
+            <label class="block text-xs font-extrabold text-lime-900 mb-1">عدد البيع</label>
+            <input id="invSoldInput" type="number" step="1" required class="w-full px-3 py-2 rounded-xl border border-lime-400 bg-lime-50/50 font-bold text-sm tabular-nums" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('inventoryModal')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            إلغاء
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-brand-navy hover:bg-slate-800 text-amber-300 shadow cursor-pointer">
+            حفظ الصنف
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Add USD Transaction Modal (Purchase or Payment with Dates) -->
+  <div id="usdTxModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-brand-navy text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 id="usdTxModalTitle" class="font-extrabold text-base text-amber-300">إضافة حركة بالدولار ($)</h3>
+        <button onclick="closeModal('usdTxModal')" class="text-slate-300 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <form id="usdTxForm" onsubmit="handleUsdTxSubmit(event)" class="p-5 space-y-4">
+        <input type="hidden" id="usdTxTypeInput" value="purchase" />
+
+        <div>
+          <label class="block text-xs font-extrabold text-slate-700 mb-1">الوكيل / الحساب</label>
+          <select id="usdAgentSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-bold">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div>
+          <label id="usdAmountLabel" class="block text-xs font-extrabold text-slate-800 mb-1">مبلغ الشراء ($)</label>
+          <input id="usdAmountInput" type="number" step="0.01" required placeholder="مثال: 1500" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 outline-none text-sm font-bold tabular-nums" />
+        </div>
+
+        <div>
+          <label id="usdDateLabel" class="block text-xs font-extrabold text-slate-800 mb-1">تاريخ الشراء</label>
+          <input id="usdDateInput" type="text" placeholder="مثال: 24/11/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 outline-none text-sm" />
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('usdTxModal')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            إلغاء
+          </button>
+          <button type="submit" id="usdTxSubmitBtn" class="px-5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow cursor-pointer">
+            حفظ الحركة ($)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Add IQD Transaction Modal (Purchase or Payment) -->
+  <div id="iqdTxModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-brand-navy text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 id="iqdTxModalTitle" class="font-extrabold text-base text-amber-300">إضافة حركة بالدينار العراقي</h3>
+        <button onclick="closeModal('iqdTxModal')" class="text-slate-300 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <form id="iqdTxForm" onsubmit="handleIqdTxSubmit(event)" class="p-5 space-y-4">
+        <input type="hidden" id="iqdTxTypeInput" value="purchase" />
+
+        <div class="bg-slate-100 px-3.5 py-2 rounded-xl text-xs font-extrabold text-slate-700 flex justify-between">
+          <span>الوكيل الحالي:</span>
+          <span id="iqdModalAgentName" class="text-brand-navy">حارث جمله</span>
+        </div>
+
+        <div>
+          <label id="iqdAmountLabel" class="block text-xs font-extrabold text-slate-800 mb-1">مبلغ الشراء (د.ع)</label>
+          <input id="iqdAmountInput" type="number" step="1" required placeholder="مثال: 1500000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 outline-none text-sm font-bold tabular-nums" />
+        </div>
+
+        <div>
+          <label id="iqdDateLabel" class="block text-xs font-extrabold text-slate-800 mb-1">تاريخ الشراء</label>
+          <input id="iqdDateInput" type="text" placeholder="مثال: 24/11/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 outline-none text-sm" />
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('iqdTxModal')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            إلغاء
+          </button>
+          <button type="submit" id="iqdTxSubmitBtn" class="px-5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow cursor-pointer">
+            حفظ الحركة
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Add Agent Modal (USD or IQD) -->
+  <div id="agentModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-brand-navy text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 id="agentModalTitle" class="font-extrabold text-base text-amber-300">إضافة وكيل / عميل جديد</h3>
+        <button onclick="closeModal('agentModal')" class="text-slate-300 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <form id="agentForm" onsubmit="handleAgentSubmit(event)" class="p-5 space-y-4">
+        <input type="hidden" id="agentCurrencyInput" value="iqd" />
+        <input type="hidden" id="agentModeInput" value="add" />
+        <input type="hidden" id="agentOriginalNameInput" value="" />
+        <div>
+          <label class="block text-xs font-extrabold text-slate-800 mb-1">اسم الوكيل أو العميل</label>
+          <input id="agentNameInput" type="text" required placeholder="أدخل الاسم الكامل..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-amber-500 outline-none text-sm font-bold" />
+        </div>
+        <div class="flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('agentModal')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            إلغاء
+          </button>
+          <button type="submit" id="agentSubmitBtn" class="px-5 py-2 rounded-xl text-xs font-bold bg-brand-navy hover:bg-slate-800 text-amber-300 shadow cursor-pointer">
+            إضافة
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4b. Delete Agent Confirmation Modal (USD or IQD) -->
+  <div id="deleteAgentModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full shadow-2xl border border-rose-200 overflow-hidden">
+      <div class="bg-rose-700 text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 class="font-extrabold text-base">تأكيد حذف الوكيل</h3>
+        <button onclick="closeModal('deleteAgentModal')" class="text-rose-100 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <div class="p-5 space-y-4">
+        <input type="hidden" id="deleteAgentCurrencyInput" value="iqd" />
+        <input type="hidden" id="deleteAgentNameInput" value="" />
+        <p id="deleteAgentMessage" class="text-sm text-slate-700 leading-relaxed">
+          هل أنت متأكد من حذف هذا الوكيل وجميع حركاته المسجلة؟
+        </p>
+        <div class="flex items-center justify-end gap-2">
+          <button onclick="closeModal('deleteAgentModal')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            إلغاء
+          </button>
+          <button onclick="confirmDeleteAgent()" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow cursor-pointer">
+            نعم، حذف الوكيل
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Reset Confirmation Modal (replaces confirm()) -->
+  <div id="resetModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full shadow-2xl border border-rose-200 overflow-hidden">
+      <div class="bg-rose-700 text-white px-5 py-3.5 flex items-center justify-between">
+        <h3 class="font-extrabold text-base">تأكيد استعادة البيانات الأصلية</h3>
+        <button onclick="closeModal('resetModal')" class="text-rose-100 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+      <div class="p-5 space-y-4">
+        <p class="text-sm text-slate-700 leading-relaxed">
+          هل تريد استعادة جميع بيانات جرد المخزن والديون بالدولار والدينار العراقي إلى القيم الأصلية المستخرجة من جداول الإكسل؟ سيتم تحديث النسخة السحابية والمحلية بالبيانات الأصلية.
+        </p>
+        <div class="flex items-center justify-end gap-2">
+          <button onclick="closeModal('resetModal')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            تراجع
+          </button>
+          <button onclick="confirmResetData()" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow cursor-pointer">
+            نعم، استعادة الأصل
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION JAVASCRIPT & CLOUD FIRESTORE SYNC                         -->
+  <!-- ===================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const STORAGE_KEY = 'omar_alsajer_arabic_attire_v1';
+    const appId = typeof __app_id !== 'undefined' && __app_id ? __app_id : 'omar-alsajer-arabic-attire';
+
+    let db = null;
+    let auth = null;
+    let currentUser = null;
+    let cloudDocRef = null;
+    let unsubscribeCloud = null;
+    let isApplyingRemoteSnapshot = false;
+    let cloudSyncDebounceTimer = null;
+
+    function updateCloudIndicators(statusText, tone = 'info') {
+      const desktopEl = document.getElementById('cloudStatusDesktop');
+      const mobileBarEl = document.getElementById('cloudStatusMobileBar');
+      const mobileHeaderEl = document.getElementById('saveIndicatorMobile');
+      const footerEl = document.getElementById('cloudFooterStatus');
+
+      const palette = {
+        synced: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+        syncing: 'bg-amber-500/20 text-amber-200 border-amber-500/40',
+        offline: 'bg-rose-500/20 text-rose-200 border-rose-500/40',
+        info: 'bg-sky-500/20 text-sky-200 border-sky-500/40'
+      };
+      const cls = palette[tone] || palette.info;
+
+      if (desktopEl) {
+        desktopEl.className = `px-2.5 py-1.5 rounded-xl text-[11px] font-bold border whitespace-nowrap ${cls}`;
+        desktopEl.textContent = statusText;
+      }
+      if (mobileBarEl) {
+        mobileBarEl.className = `px-2.5 py-1.5 rounded-xl text-[11px] font-bold border ${cls}`;
+        mobileBarEl.textContent = statusText;
+      }
+      if (mobileHeaderEl) {
+        mobileHeaderEl.className = `text-[11px] border px-2.5 py-1 rounded-full font-semibold ${cls}`;
+        mobileHeaderEl.textContent = tone === 'synced' ? 'سحابي ✔' : statusText;
+      }
+      if (footerEl) {
+        footerEl.textContent = `${statusText} — يتم حفظ جميع التعديلات ومزامنتها تلقائياً.`;
+      }
+    }
+
+    function normalizeAndMergeState(rawParsed) {
+      const base = createInitialData();
+      if (!rawParsed || typeof rawParsed !== 'object') return base;
+
+      const mergedInvItems = Array.isArray(rawParsed.inventory?.items) && rawParsed.inventory.items.length > 0
+        ? rawParsed.inventory.items.map((item, idx) => ({
+            id: Number(item.id) || (idx + 1),
+            name: String(item.name || '').trim(),
+            remaining: Number(item.remaining) || 0,
+            purchased: Number(item.purchased) || 0,
+            sold: Number(item.sold) || 0
+          })).filter(i => i.name.length > 0)
+        : base.inventory.items;
+
+      const sheetTotals = rawParsed.inventory?.sheetTotals || base.inventory.sheetTotals;
+
+      const cleanUsdAgents = Array.isArray(rawParsed.usdDebts?.agents) && rawParsed.usdDebts.agents.length > 0
+        ? rawParsed.usdDebts.agents
+            .filter(a => a && a.name && String(a.name).trim() !== 'مجموع الديون الكلي')
+            .map(a => ({
+              name: String(a.name).trim(),
+              openingPurchaseAdj: Number(a.openingPurchaseAdj) || 0,
+              openingPaymentAdj: Number(a.openingPaymentAdj) || 0,
+              transactions: Array.isArray(a.transactions) ? a.transactions : []
+            }))
+        : base.usdDebts.agents;
+
+      const cleanIqdAgents = Array.isArray(rawParsed.iqdDebts?.agents) && rawParsed.iqdDebts.agents.length > 0
+        ? rawParsed.iqdDebts.agents.map(a => ({
+            name: String(a.name || '').trim(),
+            openingPurchaseAdj: Number(a.openingPurchaseAdj) || 0,
+            openingPaymentAdj: Number(a.openingPaymentAdj) || 0,
+            transactions: Array.isArray(a.transactions) ? a.transactions : []
+          })).filter(a => a.name.length > 0)
+        : base.iqdDebts.agents;
+
+      return {
+        activeTab: rawParsed.activeTab || 'inventory',
+        inventory: {
+          sheetTotals: {
+            remaining: Number(sheetTotals.remaining ?? base.inventory.sheetTotals.remaining),
+            purchased: Number(sheetTotals.purchased ?? base.inventory.sheetTotals.purchased),
+            sold: Number(sheetTotals.sold ?? base.inventory.sheetTotals.sold)
+          },
+          useSheetTotals: rawParsed.inventory?.useSheetTotals !== undefined ? Boolean(rawParsed.inventory.useSheetTotals) : true,
+          lowStockOnly: Boolean(rawParsed.inventory?.lowStockOnly),
+          items: mergedInvItems.length > 0 ? mergedInvItems : base.inventory.items
+        },
+        usdDebts: {
+          activeView: rawParsed.usdDebts?.activeView || 'ALL',
+          overallOpeningPurchaseAdj: rawParsed.usdDebts?.overallOpeningPurchaseAdj !== undefined
+            ? Number(rawParsed.usdDebts.overallOpeningPurchaseAdj)
+            : base.usdDebts.overallOpeningPurchaseAdj,
+          overallOpeningPaymentAdj: Number(rawParsed.usdDebts?.overallOpeningPaymentAdj) || 0,
+          agents: cleanUsdAgents.length > 0 ? cleanUsdAgents : base.usdDebts.agents
+        },
+        iqdDebts: {
+          activeAgent: rawParsed.iqdDebts?.activeAgent || (cleanIqdAgents[0]?.name || 'حارث جمله'),
+          agents: cleanIqdAgents.length > 0 ? cleanIqdAgents : base.iqdDebts.agents
+        }
+      };
+    }
+
+    async function pushStateToCloud(forceImmediate = false) {
+      if (!db || !currentUser || !cloudDocRef || isApplyingRemoteSnapshot) return;
+
+      const executePush = async () => {
+        if (!currentUser || !cloudDocRef) return;
+        try {
+          updateCloudIndicators('☁️ جاري المزامنة...', 'syncing');
+          const payload = {
+            data: JSON.parse(JSON.stringify(state)),
+            updatedAt: new Date().toISOString(),
+            updatedBy: currentUser.uid
+          };
+          await setDoc(cloudDocRef, payload, { merge: true });
+          updateCloudIndicators('☁️ متزامن مع السحابة', 'synced');
+        } catch (err) {
+          console.error('Cloud push error:', err);
+          updateCloudIndicators('☁️ حفظ محلي (تعذر الاتصال)', 'offline');
+        }
+      };
+
+      if (cloudSyncDebounceTimer) {
+        clearTimeout(cloudSyncDebounceTimer);
+        cloudSyncDebounceTimer = null;
+      }
+
+      if (forceImmediate) {
+        await executePush();
+      } else {
+        cloudSyncDebounceTimer = setTimeout(executePush, 350);
+      }
+    }
+
+    async function manualCloudSync() {
+      if (!db || !currentUser || !cloudDocRef) {
+        showToast('تم حفظ البيانات محلياً وجاري التحقق من السحابة', 'info');
+        await initCloudSync();
+        return;
+      }
+      try {
+        updateCloudIndicators('☁️ جاري التحديث...', 'syncing');
+        const snap = await getDoc(cloudDocRef);
+        if (snap.exists() && snap.data()?.data) {
+          isApplyingRemoteSnapshot = true;
+          state = normalizeAndMergeState(snap.data().data);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          isApplyingRemoteSnapshot = false;
+          switchTab(state.activeTab || 'inventory');
+          updateCloudIndicators('☁️ تم التحديث من السحابة', 'synced');
+          showToast('تمت مزامنة أحدث البيانات من السحابة', 'success');
+        } else {
+          await pushStateToCloud(true);
+          showToast('تم رفع البيانات إلى السحابة بنجاح', 'success');
+        }
+      } catch (err) {
+        console.error('Manual cloud sync failed:', err);
+        updateCloudIndicators('☁️ وضع محلي (غير متصل)', 'offline');
+        showToast('تعذر الاتصال بالسحابة حالياً، البيانات محفوظة محلياً', 'error');
+      }
+    }
+
+    async function initCloudSync() {
+      try {
+        if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+          updateCloudIndicators('💾 حفظ محلي نشط', 'info');
+          return;
+        }
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        updateCloudIndicators('☁️ جاري تسجيل الدخول السحابي...', 'syncing');
+
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          const cred = await signInWithCustomToken(auth, __initial_auth_token);
+          currentUser = cred.user;
+        } else {
+          const cred = await signInAnonymously(auth);
+          currentUser = cred.user;
+        }
+
+        if (!currentUser) {
+          updateCloudIndicators('💾 حفظ محلي نشط', 'info');
+          return;
+        }
+
+        const uidInfoEl = document.getElementById('cloudUserIdInfo');
+        if (uidInfoEl) {
+          uidInfoEl.textContent = `معرف الحساب السحابي: ${currentUser.uid}`;
+        }
+
+        cloudDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'omar_alsajer_store_state');
+
+        const existingSnap = await getDoc(cloudDocRef);
+        if (existingSnap.exists() && existingSnap.data()?.data) {
+          isApplyingRemoteSnapshot = true;
+          state = normalizeAndMergeState(existingSnap.data().data);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          isApplyingRemoteSnapshot = false;
+          switchTab(state.activeTab || 'inventory');
+        } else {
+          await pushStateToCloud(true);
+        }
+
+        if (unsubscribeCloud) {
+          unsubscribeCloud();
+        }
+
+        unsubscribeCloud = onSnapshot(
+          cloudDocRef,
+          (snapshot) => {
+            if (!snapshot.exists() || !snapshot.data()?.data) return;
+            const incoming = normalizeAndMergeState(snapshot.data().data);
+            const incomingSerialized = JSON.stringify(incoming);
+            const currentSerialized = JSON.stringify(state);
+            if (incomingSerialized !== currentSerialized) {
+              isApplyingRemoteSnapshot = true;
+              state = incoming;
+              localStorage.setItem(STORAGE_KEY, incomingSerialized);
+              renderAll();
+              isApplyingRemoteSnapshot = false;
+            }
+            updateCloudIndicators('☁️ متزامن مع السحابة', 'synced');
+          },
+          (error) => {
+            console.error('Cloud snapshot listener error:', error);
+            updateCloudIndicators('☁️ حفظ محلي (انقطاع السحابة)', 'offline');
+          }
+        );
+
+        updateCloudIndicators('☁️ متزامن مع السحابة', 'synced');
+      } catch (err) {
+        console.error('Firebase initialization error:', err);
+        updateCloudIndicators('💾 حفظ محلي نشط', 'offline');
+      }
+    }
+
+    // Expose cloud helpers to inline event handlers
+    window.manualCloudSync = manualCloudSync;
+    window.pushStateToCloud = pushStateToCloud;
+  </script>
+
+  <script>
+    const STORAGE_KEY = 'omar_alsajer_arabic_attire_v1';
+
+    /**
+     * Exact seed data derived from the provided Excel sheet photos:
+     * - Image 1: Inventory sheet (جرد المخزن جديد) with summary totals (5431, 5928, 487) and 9 rows.
+     * - Image 2: USD Debts sheet (ديون بالدولار) showing 26,036 $ and agents.
+     * - Images 3, 4, 5: IQD Debts sheet (ديون بالدينار) showing "حارث جمله" with 32,318,000 purchase,
+     *   22,784,000 payment, 9,534,000 remaining, and all 7 agent tabs.
+     */
+    function createInitialData() {
+      return {
+        activeTab: 'inventory',
+        inventory: {
+          sheetTotals: {
+            remaining: 5431,
+            purchased: 5928,
+            sold: 487
+          },
+          useSheetTotals: true,
+          lowStockOnly: false,
+          items: [
+            { id: 1, name: 'الطواش فلات ساده', remaining: 204, purchased: 216, sold: 12 },
+            { id: 2, name: 'الرياده خليه فلات قطري', remaining: 129, purchased: 144, sold: 15 },
+            { id: 3, name: 'مارينا خليه فلات', remaining: 195, purchased: 204, sold: 9 },
+            { id: 4, name: 'اسود فلات طواش وعطار', remaining: 91, purchased: 96, sold: 5 },
+            { id: 5, name: 'الاصايل اسود ونيلي', remaining: 65, purchased: 71, sold: 6 },
+            { id: 6, name: 'المختار ياخه قطري', remaining: 43, purchased: 45, sold: 2 },
+            { id: 7, name: 'النسيج فلات وبزمه', remaining: 68, purchased: 72, sold: 4 },
+            { id: 8, name: 'يلك عادي', remaining: 47, purchased: 48, sold: 1 },
+            { id: 9, name: 'البلكات اصلي', remaining: 273, purchased: 288, sold: 15 }
+          ]
+        },
+        usdDebts: {
+          activeView: 'ALL',
+          overallOpeningPurchaseAdj: 26036,
+          overallOpeningPaymentAdj: 0,
+          agents: [
+            {
+              name: 'عبدالوهاب رمادي',
+              openingPurchaseAdj: 0,
+              openingPaymentAdj: 0,
+              transactions: []
+            },
+            {
+              name: 'أحمد سعد',
+              openingPurchaseAdj: 0,
+              openingPaymentAdj: 0,
+              transactions: []
+            },
+            {
+              name: 'محمد سعد شحاطات',
+              openingPurchaseAdj: 0,
+              openingPaymentAdj: 0,
+              transactions: []
+            },
+            {
+              name: 'الاعيان',
+              openingPurchaseAdj: 0,
+              openingPaymentAdj: 0,
+              transactions: []
+            }
+          ]
+        },
+        iqdDebts: {
+          activeAgent: 'حارث جمله',
+          agents: [
+            {
+              name: 'حارث جمله',
+              openingPurchaseAdj: 12996000,
+              openingPaymentAdj: 8060000,
+              transactions: [
+                { id: 1, purchaseDate: '9/9/2024', purchaseAmount: 1368000, paymentAmount: 0, paymentDate: '' },
+                { id: 2, purchaseDate: '', purchaseAmount: 4488000, paymentAmount: 0, paymentDate: '' },
+                { id: 3, purchaseDate: '', purchaseAmount: 972000, paymentAmount: 0, paymentDate: '' },
+                { id: 4, purchaseDate: '', purchaseAmount: 960000, paymentAmount: 0, paymentDate: '' },
+                { id: 5, purchaseDate: '', purchaseAmount: 0, paymentAmount: 2500000, paymentDate: '' },
+                { id: 6, purchaseDate: '', purchaseAmount: 0, paymentAmount: 2500000, paymentDate: '' },
+                { id: 7, purchaseDate: '', purchaseAmount: 936000, paymentAmount: 0, paymentDate: '' },
+                { id: 8, purchaseDate: '', purchaseAmount: 0, paymentAmount: 3724000, paymentDate: '' },
+                { id: 9, purchaseDate: '', purchaseAmount: 8180000, paymentAmount: 0, paymentDate: '' },
+                { id: 10, purchaseDate: '', purchaseAmount: 2160000, paymentAmount: 0, paymentDate: '' },
+                { id: 11, purchaseDate: '', purchaseAmount: 0, paymentAmount: 5000000, paymentDate: '' },
+                { id: 12, purchaseDate: '', purchaseAmount: 0, paymentAmount: 2000000, paymentDate: '' }
+              ]
+            },
+            { name: 'الاعيان', openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] },
+            { name: 'الضرغام', openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] },
+            { name: 'ع وهاب عراقي', openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] },
+            { name: 'ابوكرار بغداد', openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] },
+            { name: 'علي البهادلي', openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] },
+            { name: 'أحمد السامرائي', openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] }
+          ]
+        }
+      };
+    }
+
+    let state = loadState();
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return createInitialData();
+        const parsed = JSON.parse(raw);
+        if (!parsed || !parsed.inventory || !parsed.usdDebts || !parsed.iqdDebts) {
+          return createInitialData();
+        }
+        return parsed;
+      } catch (err) {
+        console.error('Error loading state from localStorage:', err);
+        return createInitialData();
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (typeof window.pushStateToCloud === 'function') {
+          window.pushStateToCloud(false);
+        }
+        showToast('تم حفظ التغييرات تلقائياً', 'success');
+      } catch (err) {
+        console.error('Error saving to localStorage:', err);
+        showToast('تعذر حفظ البيانات محلياً في المتصفح', 'error');
+      }
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const colorClasses = type === 'success'
+        ? 'bg-slate-900 text-emerald-300 border-emerald-500/50'
+        : type === 'error'
+        ? 'bg-rose-950 text-rose-200 border-rose-500/50'
+        : 'bg-slate-900 text-amber-300 border-amber-500/50';
+      toast.className = `${colorClasses} border px-4 py-2.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-2 transition-all duration-300`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2200);
+    }
+
+    function formatNumber(num) {
+      const n = Number(num) || 0;
+      return n.toLocaleString('en-US');
+    }
+
+    function formatIQD(num) {
+      return `${formatNumber(num)} د.ع`;
+    }
+
+    function formatUSD(num) {
+      return `$ ${formatNumber(num)}`;
+    }
+
+    // =========================================================================
+    // NAVIGATION & TAB SWITCHING
+    // =========================================================================
+    function switchTab(tabName) {
+      state.activeTab = tabName;
+      saveState();
+
+      document.querySelectorAll('.tab-section').forEach(sec => {
+        sec.classList.add('hidden');
+      });
+      const targetSec = document.getElementById(`section-${tabName}`);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        if (btn.dataset.tab === tabName) {
+          btn.className = 'nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer bg-amber-500 text-slate-950 shadow';
+        } else {
+          btn.className = 'nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-100';
+        }
+      });
+
+      renderAll();
+    }
+
+    function renderAll() {
+      renderInventory();
+      renderUsdDebts();
+      renderIqdDebts();
+      renderOverview();
+    }
+
+    // =========================================================================
+    // 1. INVENTORY LOGIC (جرد المخزن)
+    // =========================================================================
+    function getFilteredInventoryItems() {
+      const q = (document.getElementById('invSearchInput')?.value || '').trim().toLowerCase();
+      return state.inventory.items.filter(item => {
+        const matchesQuery = !q || item.name.toLowerCase().includes(q);
+        const matchesLowStock = !state.inventory.lowStockOnly || Number(item.remaining) < 70;
+        return matchesQuery && matchesLowStock;
+      });
+    }
+
+    function toggleLowStockFilter() {
+      state.inventory.lowStockOnly = !state.inventory.lowStockOnly;
+      const btn = document.getElementById('invLowStockBtn');
+      if (btn) {
+        if (state.inventory.lowStockOnly) {
+          btn.className = 'px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-amber-500 bg-amber-100 text-amber-950 transition cursor-pointer whitespace-nowrap';
+        } else {
+          btn.className = 'px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-slate-300 bg-white hover:bg-amber-50 text-slate-700 transition cursor-pointer whitespace-nowrap';
+        }
+      }
+      saveState();
+      renderInventory();
+    }
+
+    function toggleInventoryTotalsMode() {
+      state.inventory.useSheetTotals = !state.inventory.useSheetTotals;
+      saveState();
+      renderInventory();
+    }
+
+    /**
+     * Adjusts either 'sold' (عدد البيع) or 'purchased' (عدد الشراء) by delta (+1 or -1)
+     * and updates 'remaining' (الباقي في المخزن) and sheet summary totals accordingly.
+     */
+    function adjustInventoryMetric(itemId, field, delta) {
+      const item = state.inventory.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      if (field === 'sold') {
+        const nextSold = Math.max(0, Number(item.sold) + delta);
+        const actualDelta = nextSold - Number(item.sold);
+        if (actualDelta === 0) return;
+        item.sold = nextSold;
+        item.remaining = Number(item.remaining) - actualDelta;
+        state.inventory.sheetTotals.sold = Math.max(0, Number(state.inventory.sheetTotals.sold) + actualDelta);
+        state.inventory.sheetTotals.remaining = Number(state.inventory.sheetTotals.remaining) - actualDelta;
+      } else if (field === 'purchased') {
+        const nextPurchased = Math.max(0, Number(item.purchased) + delta);
+        const actualDelta = nextPurchased - Number(item.purchased);
+        if (actualDelta === 0) return;
+        item.purchased = nextPurchased;
+        item.remaining = Number(item.remaining) + actualDelta;
+        state.inventory.sheetTotals.purchased = Math.max(0, Number(state.inventory.sheetTotals.purchased) + actualDelta);
+        state.inventory.sheetTotals.remaining = Number(state.inventory.sheetTotals.remaining) + actualDelta;
+      }
+
+      saveState();
+      renderInventory();
+      renderOverview();
+    }
+
+    function renderInventory() {
+      const tbody = document.getElementById('inventoryTableBody');
+      if (!tbody) return;
+
+      const filtered = getFilteredInventoryItems();
+      const allItems = state.inventory.items;
+
+      // Calculate row sums
+      const calcRemaining = allItems.reduce((sum, x) => sum + (Number(x.remaining) || 0), 0);
+      const calcPurchased = allItems.reduce((sum, x) => sum + (Number(x.purchased) || 0), 0);
+      const calcSold = allItems.reduce((sum, x) => sum + (Number(x.sold) || 0), 0);
+
+      const displayRemaining = state.inventory.useSheetTotals ? state.inventory.sheetTotals.remaining : calcRemaining;
+      const displayPurchased = state.inventory.useSheetTotals ? state.inventory.sheetTotals.purchased : calcPurchased;
+      const displaySold = state.inventory.useSheetTotals ? state.inventory.sheetTotals.sold : calcSold;
+
+      document.getElementById('invSummaryRemaining').textContent = formatNumber(displayRemaining);
+      document.getElementById('invSummaryPurchased').textContent = formatNumber(displayPurchased);
+      document.getElementById('invSummarySold').textContent = formatNumber(displaySold);
+
+      const modeLabel = state.inventory.useSheetTotals ? 'إجمالي الشيت المسجل' : 'مجموع الأصناف المحسوب';
+      document.getElementById('invRemainingModeLabel').textContent = `${modeLabel} (${formatNumber(displayRemaining)})`;
+      document.getElementById('invPurchasedModeLabel').textContent = `${modeLabel} (${formatNumber(displayPurchased)})`;
+      document.getElementById('invSoldModeLabel').textContent = `${modeLabel} (${formatNumber(displaySold)})`;
+      document.getElementById('totalsModeText').textContent = state.inventory.useSheetTotals ? 'مجاميع الشيت الأصلية' : 'مجموع الصفوف';
+      document.getElementById('invRowCountBadge').textContent = `${filtered.length} من ${allItems.length} صنف`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-500 font-bold">
+              لا توجد أصناف مطابقة للبحث أو الفلتر الحالي.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((item, idx) => {
+        const isLow = Number(item.remaining) < 70;
+        return `
+          <tr class="hover:bg-amber-50/40 transition ${isLow ? 'bg-rose-50/30' : ''}">
+            <td class="py-3 px-3 text-center font-bold text-slate-600 border-l border-slate-200 tabular-nums">${idx + 1}</td>
+            <td class="py-3 px-4 font-extrabold text-slate-900 border-l border-slate-200">
+              <div class="flex items-center gap-2">
+                <span>${escapeHtml(item.name)}</span>
+                ${isLow ? '<span class="text-[10px] bg-rose-100 text-rose-700 border border-rose-200 px-2 py-0.5 rounded-full font-bold">منخفض</span>' : ''}
+              </div>
+            </td>
+            <td class="py-3 px-3 text-center font-extrabold text-lg text-sky-950 bg-sky-50/70 border-l border-slate-200 tabular-nums">
+              ${formatNumber(item.remaining)}
+            </td>
+            <td class="py-3 px-3 text-center font-extrabold text-lg text-orange-950 bg-orange-50/70 border-l border-slate-200 tabular-nums">
+              <div class="inline-flex items-center justify-center gap-1.5">
+                <button
+                  onclick="adjustInventoryMetric(${item.id}, 'purchased', -1)"
+                  title="إنقاص الشراء (-1)"
+                  class="w-7 h-7 rounded-lg bg-orange-200/80 hover:bg-orange-300 text-orange-950 font-extrabold text-sm flex items-center justify-center cursor-pointer transition no-print"
+                >-</button>
+                <span class="min-w-[2.5rem]">${formatNumber(item.purchased)}</span>
+                <button
+                  onclick="adjustInventoryMetric(${item.id}, 'purchased', 1)"
+                  title="زيادة الشراء (+1)"
+                  class="w-7 h-7 rounded-lg bg-orange-200/80 hover:bg-orange-300 text-orange-950 font-extrabold text-sm flex items-center justify-center cursor-pointer transition no-print"
+                >+</button>
+              </div>
+            </td>
+            <td class="py-3 px-3 text-center font-extrabold text-lg text-lime-950 bg-lime-50/70 border-l border-slate-200 tabular-nums">
+              <div class="inline-flex items-center justify-center gap-1.5">
+                <button
+                  onclick="adjustInventoryMetric(${item.id}, 'sold', -1)"
+                  title="إنقاص البيع (-1)"
+                  class="w-7 h-7 rounded-lg bg-lime-300/80 hover:bg-lime-400 text-lime-950 font-extrabold text-sm flex items-center justify-center cursor-pointer transition no-print"
+                >-</button>
+                <span class="min-w-[2rem]">${formatNumber(item.sold)}</span>
+                <button
+                  onclick="adjustInventoryMetric(${item.id}, 'sold', 1)"
+                  title="زيادة البيع (+1)"
+                  class="w-7 h-7 rounded-lg bg-lime-300/80 hover:bg-lime-400 text-lime-950 font-extrabold text-sm flex items-center justify-center cursor-pointer transition no-print"
+                >+</button>
+              </div>
+            </td>
+            <td class="py-3 px-3 text-center no-print">
+              <div class="inline-flex items-center gap-1.5">
+                <button
+                  onclick="openEditInventoryModal(${item.id})"
+                  class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 cursor-pointer transition"
+                >
+                  تعديل
+                </button>
+                <button
+                  onclick="deleteInventoryItem(${item.id})"
+                  class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 cursor-pointer transition"
+                >
+                  حذف
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openAddInventoryModal() {
+      document.getElementById('invEditId').value = '';
+      document.getElementById('inventoryModalTitle').textContent = 'إضافة صنف جديد للمخزن';
+      document.getElementById('invNameInput').value = '';
+      document.getElementById('invRemainingInput').value = '0';
+      document.getElementById('invPurchasedInput').value = '0';
+      document.getElementById('invSoldInput').value = '0';
+      openModal('inventoryModal');
+    }
+
+    function openEditInventoryModal(id) {
+      const item = state.inventory.items.find(i => i.id === id);
+      if (!item) return;
+      document.getElementById('invEditId').value = String(item.id);
+      document.getElementById('inventoryModalTitle').textContent = `تعديل الصنف: ${item.name}`;
+      document.getElementById('invNameInput').value = item.name;
+      document.getElementById('invRemainingInput').value = item.remaining;
+      document.getElementById('invPurchasedInput').value = item.purchased;
+      document.getElementById('invSoldInput').value = item.sold;
+      openModal('inventoryModal');
+    }
+
+    function handleInventorySubmit(e) {
+      e.preventDefault();
+      try {
+        const editId = document.getElementById('invEditId').value;
+        const name = document.getElementById('invNameInput').value.trim();
+        const remaining = parseInt(document.getElementById('invRemainingInput').value, 10) || 0;
+        const purchased = parseInt(document.getElementById('invPurchasedInput').value, 10) || 0;
+        const sold = parseInt(document.getElementById('invSoldInput').value, 10) || 0;
+
+        if (!name) return;
+
+        if (editId) {
+          const idx = state.inventory.items.findIndex(i => String(i.id) === editId);
+          if (idx !== -1) {
+            const old = state.inventory.items[idx];
+            state.inventory.sheetTotals.remaining += (remaining - Number(old.remaining));
+            state.inventory.sheetTotals.purchased += (purchased - Number(old.purchased));
+            state.inventory.sheetTotals.sold += (sold - Number(old.sold));
+            state.inventory.items[idx] = { ...old, name, remaining, purchased, sold };
+          }
+        } else {
+          const nextId = state.inventory.items.reduce((max, i) => Math.max(max, i.id), 0) + 1;
+          state.inventory.items.push({ id: nextId, name, remaining, purchased, sold });
+          state.inventory.sheetTotals.remaining += remaining;
+          state.inventory.sheetTotals.purchased += purchased;
+          state.inventory.sheetTotals.sold += sold;
+        }
+
+        saveState();
+        closeModal('inventoryModal');
+        renderInventory();
+        renderOverview();
+      } catch (err) {
+        console.error(err);
+        showToast('حدث خطأ أثناء حفظ الصنف', 'error');
+      }
+    }
+
+    function deleteInventoryItem(id) {
+      const idx = state.inventory.items.findIndex(i => i.id === id);
+      if (idx === -1) return;
+      const removed = state.inventory.items[idx];
+      state.inventory.sheetTotals.remaining -= Number(removed.remaining) || 0;
+      state.inventory.sheetTotals.purchased -= Number(removed.purchased) || 0;
+      state.inventory.sheetTotals.sold -= Number(removed.sold) || 0;
+      state.inventory.items.splice(idx, 1);
+      saveState();
+      renderInventory();
+      renderOverview();
+    }
+
+    // =========================================================================
+    // 2. USD DEBTS LOGIC (الديون بالدولار $)
+    // =========================================================================
+    function getUsdAgentByName(name) {
+      return (state.usdDebts.agents || []).find(a => a.name === name) || (state.usdDebts.agents || [])[0];
+    }
+
+    function computeUsdAgentTotals(agent) {
+      if (!agent) return { totalPurchase: 0, totalPayment: 0, remaining: 0 };
+      const txPurchase = (agent.transactions || []).reduce((s, t) => s + (Number(t.purchaseAmount) || 0), 0);
+      const txPayment = (agent.transactions || []).reduce((s, t) => s + (Number(t.paymentAmount) || 0), 0);
+      const totalPurchase = txPurchase + (Number(agent.openingPurchaseAdj) || 0);
+      const totalPayment = txPayment + (Number(agent.openingPaymentAdj) || 0);
+      const remaining = totalPurchase - totalPayment;
+      return { totalPurchase, totalPayment, remaining };
+    }
+
+    function computeUsdOverallTotals() {
+      const base = (state.usdDebts.agents || []).reduce((acc, a) => {
+        const t = computeUsdAgentTotals(a);
+        acc.totalPurchase += t.totalPurchase;
+        acc.totalPayment += t.totalPayment;
+        acc.remaining += t.remaining;
+        return acc;
+      }, { totalPurchase: 0, totalPayment: 0, remaining: 0 });
+
+      const extraPurchase = Number(state.usdDebts.overallOpeningPurchaseAdj) || 0;
+      const extraPayment = Number(state.usdDebts.overallOpeningPaymentAdj) || 0;
+      const totalPurchase = base.totalPurchase + extraPurchase;
+      const totalPayment = base.totalPayment + extraPayment;
+      return {
+        totalPurchase,
+        totalPayment,
+        remaining: totalPurchase - totalPayment
+      };
+    }
+
+    function renderUsdDebts() {
+      const usd = state.usdDebts;
+      usd.agents = (usd.agents || []).filter(a => a && a.name && a.name.trim() !== 'مجموع الديون الكلي');
+
+      const isAll = usd.activeView === 'ALL' || !usd.activeView;
+      if (isAll) {
+        usd.activeView = 'ALL';
+      }
+      const selectedAgent = isAll ? null : getUsdAgentByName(usd.activeView);
+      if (!isAll && !selectedAgent) {
+        usd.activeView = usd.agents.length > 0 ? usd.agents[0].name : 'ALL';
+      }
+      const resolvedAgent = usd.activeView === 'ALL' ? null : getUsdAgentByName(usd.activeView);
+
+      const editUsdBtn = document.getElementById('usdEditAgentBtn');
+      const delUsdBtn = document.getElementById('usdDeleteAgentBtn');
+      const hasSelectableUsdAgent = usd.activeView !== 'ALL' && Boolean(resolvedAgent);
+      if (editUsdBtn) editUsdBtn.disabled = !hasSelectableUsdAgent;
+      if (delUsdBtn) delUsdBtn.disabled = !hasSelectableUsdAgent;
+      if (editUsdBtn) editUsdBtn.classList.toggle('opacity-40', !hasSelectableUsdAgent);
+      if (delUsdBtn) delUsdBtn.classList.toggle('opacity-40', !hasSelectableUsdAgent);
+
+      const totals = usd.activeView === 'ALL' ? computeUsdOverallTotals() : computeUsdAgentTotals(resolvedAgent);
+      const currentLabel = usd.activeView === 'ALL' ? 'مجموع الديون الكلي' : (resolvedAgent ? resolvedAgent.name : 'مجموع الديون الكلي');
+
+      document.getElementById('usdCurrentAgentName').textContent = currentLabel;
+      document.getElementById('usdTableAgentTitle').textContent = currentLabel;
+      document.getElementById('usdTotalPurchaseDisplay').textContent = formatUSD(totals.totalPurchase);
+      document.getElementById('usdTotalPaymentDisplay').textContent = formatUSD(totals.totalPayment);
+      document.getElementById('usdRemainingDisplay').textContent = formatUSD(totals.remaining);
+
+      const ledgerRows = usd.activeView === 'ALL'
+        ? (usd.agents || []).flatMap(a => (a.transactions || []).map(tx => ({ ...tx, agentName: a.name })))
+        : (resolvedAgent ? resolvedAgent.transactions || [] : []);
+
+      document.getElementById('usdTxCountBadge').textContent = `${ledgerRows.length} حركة`;
+
+      const tbody = document.getElementById('usdLedgerTableBody');
+      if (tbody) {
+        if (ledgerRows.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="py-8 text-center text-slate-500 font-bold">
+                لا توجد حركات شراء أو تسديد إضافية مسجلة في "${escapeHtml(currentLabel)}".
+              </td>
+            </tr>
+          `;
+        } else {
+          tbody.innerHTML = ledgerRows.map((tx, index) => {
+            const hasPurchase = Number(tx.purchaseAmount) > 0;
+            const hasPayment = Number(tx.paymentAmount) > 0;
+            const ownerName = tx.agentName || currentLabel;
+            return `
+              <tr class="hover:bg-slate-50 transition">
+                <td class="py-2.5 px-3 text-center font-bold text-slate-600 border-l border-slate-200 tabular-nums">${index + 1}</td>
+                <td class="py-2.5 px-4 text-center font-semibold text-slate-800 border-l border-slate-200 tabular-nums">${escapeHtml(tx.purchaseDate || '')}</td>
+                <td class="py-2.5 px-4 text-center font-extrabold border-l border-slate-200 tabular-nums ${hasPurchase ? 'text-slate-950 bg-amber-50/50' : 'text-slate-400'}">
+                  ${hasPurchase ? formatUSD(tx.purchaseAmount) : ''}
+                </td>
+                <td class="py-2.5 px-4 text-center font-extrabold border-l border-slate-200 tabular-nums ${hasPayment ? 'text-emerald-800 bg-lime-50/50' : 'text-slate-400'}">
+                  ${hasPayment ? formatUSD(tx.paymentAmount) : ''}
+                </td>
+                <td class="py-2.5 px-4 text-center font-semibold text-slate-800 border-l border-slate-200 tabular-nums">${escapeHtml(tx.paymentDate || '')}</td>
+                <td class="py-2.5 px-3 text-center no-print">
+                  <button
+                    onclick="deleteUsdTransaction('${escapeJsAttr(ownerName)}', ${tx.id})"
+                    class="px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold cursor-pointer"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      const tabsContainer = document.getElementById('usdAgentTabsContainer');
+      if (tabsContainer) {
+        let html = `
+          <button
+            onclick="selectUsdView('ALL')"
+            class="px-3.5 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap cursor-pointer transition ${
+              usd.activeView === 'ALL'
+                ? 'bg-amber-400 text-slate-950 shadow border border-amber-500'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
+            }"
+          >
+            مجموع الديون الكلي
+          </button>
+        `;
+        (usd.agents || []).forEach(a => {
+          const active = usd.activeView === a.name;
+          html += `
+            <button
+              onclick="selectUsdView('${escapeJsAttr(a.name)}')"
+              class="px-3.5 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap cursor-pointer transition ${
+                active
+                  ? 'bg-amber-400 text-slate-950 shadow border border-amber-500'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
+              }"
+            >
+              ${escapeHtml(a.name)}
+            </button>
+          `;
+        });
+        tabsContainer.innerHTML = html;
+      }
+    }
+
+    function selectUsdView(viewName) {
+      state.usdDebts.activeView = viewName;
+      saveState();
+      renderUsdDebts();
+    }
+
+    function openAddUsdTxModal(type) {
+      const sel = document.getElementById('usdAgentSelect');
+      const agents = (state.usdDebts.agents || []).filter(a => a && a.name && a.name.trim() !== 'مجموع الديون الكلي');
+      sel.innerHTML = agents.map(a => `<option value="${escapeHtml(a.name)}">${escapeHtml(a.name)}</option>`).join('');
+
+      if (state.usdDebts.activeView !== 'ALL' && agents.some(a => a.name === state.usdDebts.activeView)) {
+        sel.value = state.usdDebts.activeView;
+      } else if (agents.length > 0) {
+        sel.value = agents[0].name;
+      }
+
+      document.getElementById('usdTxTypeInput').value = type;
+      document.getElementById('usdAmountInput').value = '';
+      document.getElementById('usdDateInput').value = new Date().toLocaleDateString('en-GB');
+
+      if (type === 'purchase') {
+        document.getElementById('usdTxModalTitle').textContent = 'إضافة مبلغ شراء (دين جديد بالدولار)';
+        document.getElementById('usdAmountLabel').textContent = 'مبلغ الشراء ($)';
+        document.getElementById('usdDateLabel').textContent = 'تاريخ الشراء';
+        document.getElementById('usdTxSubmitBtn').className = 'px-5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow cursor-pointer';
+      } else {
+        document.getElementById('usdTxModalTitle').textContent = 'إضافة مبلغ تسديد بالدولار';
+        document.getElementById('usdAmountLabel').textContent = 'مبلغ التسديد ($)';
+        document.getElementById('usdDateLabel').textContent = 'تاريخ التسديد';
+        document.getElementById('usdTxSubmitBtn').className = 'px-5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow cursor-pointer';
+      }
+
+      openModal('usdTxModal');
+    }
+
+    function handleUsdTxSubmit(e) {
+      e.preventDefault();
+      try {
+        const agentName = document.getElementById('usdAgentSelect').value;
+        const agent = getUsdAgentByName(agentName);
+        if (!agent) return;
+
+        const type = document.getElementById('usdTxTypeInput').value;
+        const amount = parseFloat(document.getElementById('usdAmountInput').value) || 0;
+        const dateStr = document.getElementById('usdDateInput').value.trim();
+
+        if (amount <= 0) return;
+
+        agent.transactions = agent.transactions || [];
+        const nextId = agent.transactions.reduce((m, t) => Math.max(m, t.id), 0) + 1;
+
+        if (type === 'purchase') {
+          agent.transactions.push({
+            id: nextId,
+            purchaseDate: dateStr,
+            purchaseAmount: amount,
+            paymentAmount: 0,
+            paymentDate: ''
+          });
+        } else {
+          agent.transactions.push({
+            id: nextId,
+            purchaseDate: '',
+            purchaseAmount: 0,
+            paymentAmount: amount,
+            paymentDate: dateStr
+          });
+        }
+
+        saveState();
+        closeModal('usdTxModal');
+        renderUsdDebts();
+        renderOverview();
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر حفظ حركة الدولار', 'error');
+      }
+    }
+
+    function deleteUsdTransaction(agentName, txId) {
+      const agent = getUsdAgentByName(agentName);
+      if (!agent || !Array.isArray(agent.transactions)) return;
+      const idx = agent.transactions.findIndex(t => t.id === txId);
+      if (idx === -1) return;
+      agent.transactions.splice(idx, 1);
+      saveState();
+      renderUsdDebts();
+      renderOverview();
+    }
+
+    // =========================================================================
+    // 3. IQD DEBTS LOGIC (الديون بالدينار العراقي د.ع)
+    // =========================================================================
+    function getActiveIqdAgent() {
+      let agent = state.iqdDebts.agents.find(a => a.name === state.iqdDebts.activeAgent);
+      if (!agent && state.iqdDebts.agents.length > 0) {
+        agent = state.iqdDebts.agents[0];
+        state.iqdDebts.activeAgent = agent.name;
+      }
+      return agent;
+    }
+
+    function computeIqdAgentTotals(agent) {
+      const txPurchase = (agent.transactions || []).reduce((s, t) => s + (Number(t.purchaseAmount) || 0), 0);
+      const txPayment = (agent.transactions || []).reduce((s, t) => s + (Number(t.paymentAmount) || 0), 0);
+      const totalPurchase = txPurchase + (Number(agent.openingPurchaseAdj) || 0);
+      const totalPayment = txPayment + (Number(agent.openingPaymentAdj) || 0);
+      const remaining = totalPurchase - totalPayment;
+      return { totalPurchase, totalPayment, remaining };
+    }
+
+    function selectIqdAgent(agentName) {
+      state.iqdDebts.activeAgent = agentName;
+      saveState();
+      renderIqdDebts();
+    }
+
+    function renderIqdDebts() {
+      const agent = getActiveIqdAgent();
+      const editIqdBtn = document.getElementById('iqdEditAgentBtn');
+      const delIqdBtn = document.getElementById('iqdDeleteAgentBtn');
+      const hasIqdAgent = Boolean(agent);
+      if (editIqdBtn) {
+        editIqdBtn.disabled = !hasIqdAgent;
+        editIqdBtn.classList.toggle('opacity-40', !hasIqdAgent);
+      }
+      if (delIqdBtn) {
+        delIqdBtn.disabled = !hasIqdAgent;
+        delIqdBtn.classList.toggle('opacity-40', !hasIqdAgent);
+      }
+
+      if (!agent) {
+        document.getElementById('iqdCurrentAgentName').textContent = 'لا يوجد وكيل';
+        document.getElementById('iqdTableAgentTitle').textContent = 'لا يوجد وكيل';
+        document.getElementById('iqdTotalPurchaseDisplay').textContent = formatIQD(0);
+        document.getElementById('iqdTotalPaymentDisplay').textContent = formatIQD(0);
+        document.getElementById('iqdRemainingDisplay').textContent = formatIQD(0);
+        document.getElementById('iqdTxCountBadge').textContent = '0 حركة';
+        const tbody = document.getElementById('iqdLedgerTableBody');
+        if (tbody) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="py-8 text-center text-slate-500 font-bold">
+                لا يوجد وكلاء حالياً في سجل الدينار العراقي. استخدم زر "+ إضافة وكيل جديد" لإضافة وكيل.
+              </td>
+            </tr>
+          `;
+        }
+        const tabsContainer = document.getElementById('iqdAgentTabsContainer');
+        if (tabsContainer) {
+          tabsContainer.innerHTML = `<span class="text-xs text-slate-400 font-bold px-2">لا توجد حسابات وكلاء حالياً</span>`;
+        }
+        return;
+      }
+
+      const { totalPurchase, totalPayment, remaining } = computeIqdAgentTotals(agent);
+
+      document.getElementById('iqdCurrentAgentName').textContent = agent.name;
+      document.getElementById('iqdTableAgentTitle').textContent = agent.name;
+      document.getElementById('iqdTotalPurchaseDisplay').textContent = formatIQD(totalPurchase);
+      document.getElementById('iqdTotalPaymentDisplay').textContent = formatIQD(totalPayment);
+      document.getElementById('iqdRemainingDisplay').textContent = formatIQD(remaining);
+      document.getElementById('iqdTxCountBadge').textContent = `${agent.transactions.length} حركة`;
+
+      const tbody = document.getElementById('iqdLedgerTableBody');
+      if (tbody) {
+        if (!agent.transactions || agent.transactions.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="py-8 text-center text-slate-500 font-bold">
+                لا توجد حركات شراء أو تسديد مسجلة للوكيل "${escapeHtml(agent.name)}".
+              </td>
+            </tr>
+          `;
+        } else {
+          tbody.innerHTML = agent.transactions.map((tx, index) => {
+            const hasPurchase = Number(tx.purchaseAmount) > 0;
+            const hasPayment = Number(tx.paymentAmount) > 0;
+            return `
+              <tr class="hover:bg-slate-50 transition">
+                <td class="py-2.5 px-3 text-center font-bold text-slate-600 border-l border-slate-200 tabular-nums">${index + 1}</td>
+                <td class="py-2.5 px-4 text-center font-semibold text-slate-800 border-l border-slate-200 tabular-nums">${escapeHtml(tx.purchaseDate || '')}</td>
+                <td class="py-2.5 px-4 text-center font-extrabold border-l border-slate-200 tabular-nums ${hasPurchase ? 'text-slate-950 bg-amber-50/50' : 'text-slate-400'}">
+                  ${hasPurchase ? formatIQD(tx.purchaseAmount) : ''}
+                </td>
+                <td class="py-2.5 px-4 text-center font-extrabold border-l border-slate-200 tabular-nums ${hasPayment ? 'text-emerald-800 bg-lime-50/50' : 'text-slate-400'}">
+                  ${hasPayment ? formatIQD(tx.paymentAmount) : ''}
+                </td>
+                <td class="py-2.5 px-4 text-center font-semibold text-slate-800 border-l border-slate-200 tabular-nums">${escapeHtml(tx.paymentDate || '')}</td>
+                <td class="py-2.5 px-3 text-center no-print">
+                  <button
+                    onclick="deleteIqdTransaction(${tx.id})"
+                    class="px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold cursor-pointer"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      // Bottom agent tabs (matching Images 3, 4, 5)
+      const tabsContainer = document.getElementById('iqdAgentTabsContainer');
+      if (tabsContainer) {
+        tabsContainer.innerHTML = state.iqdDebts.agents.map(a => {
+          const isSelected = a.name === agent.name;
+          return `
+            <button
+              onclick="selectIqdAgent('${escapeJsAttr(a.name)}')"
+              class="px-3.5 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap cursor-pointer transition ${
+                isSelected
+                  ? 'bg-amber-400 text-slate-950 shadow border border-amber-500'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
+              }"
+            >
+              ${escapeHtml(a.name)}
+            </button>
+          `;
+        }).join('');
+      }
+    }
+
+    function openAddIqdTxModal(type) {
+      const agent = getActiveIqdAgent();
+      if (!agent) return;
+      document.getElementById('iqdTxTypeInput').value = type;
+      document.getElementById('iqdModalAgentName').textContent = agent.name;
+      document.getElementById('iqdAmountInput').value = '';
+      document.getElementById('iqdDateInput').value = new Date().toLocaleDateString('en-GB');
+
+      if (type === 'purchase') {
+        document.getElementById('iqdTxModalTitle').textContent = 'إضافة مبلغ شراء (دين جديد بالدينار)';
+        document.getElementById('iqdAmountLabel').textContent = 'مبلغ الشراء (د.ع)';
+        document.getElementById('iqdDateLabel').textContent = 'تاريخ الشراء';
+        document.getElementById('iqdTxSubmitBtn').className = 'px-5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow cursor-pointer';
+      } else {
+        document.getElementById('iqdTxModalTitle').textContent = 'إضافة مبلغ تسديد بالدينار';
+        document.getElementById('iqdAmountLabel').textContent = 'مبلغ التسديد (د.ع)';
+        document.getElementById('iqdDateLabel').textContent = 'تاريخ التسديد';
+        document.getElementById('iqdTxSubmitBtn').className = 'px-5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow cursor-pointer';
+      }
+
+      openModal('iqdTxModal');
+    }
+
+    function handleIqdTxSubmit(e) {
+      e.preventDefault();
+      try {
+        const agent = getActiveIqdAgent();
+        if (!agent) return;
+        const type = document.getElementById('iqdTxTypeInput').value;
+        const amount = parseInt(document.getElementById('iqdAmountInput').value, 10) || 0;
+        const dateStr = document.getElementById('iqdDateInput').value.trim();
+
+        if (amount <= 0) return;
+
+        const nextId = agent.transactions.reduce((m, t) => Math.max(m, t.id), 0) + 1;
+        if (type === 'purchase') {
+          agent.transactions.push({
+            id: nextId,
+            purchaseDate: dateStr,
+            purchaseAmount: amount,
+            paymentAmount: 0,
+            paymentDate: ''
+          });
+        } else {
+          agent.transactions.push({
+            id: nextId,
+            purchaseDate: '',
+            purchaseAmount: 0,
+            paymentAmount: amount,
+            paymentDate: dateStr
+          });
+        }
+
+        saveState();
+        closeModal('iqdTxModal');
+        renderIqdDebts();
+        renderOverview();
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر حفظ الحركة المالية', 'error');
+      }
+    }
+
+    function deleteIqdTransaction(txId) {
+      const agent = getActiveIqdAgent();
+      if (!agent) return;
+      const idx = agent.transactions.findIndex(t => t.id === txId);
+      if (idx === -1) return;
+      agent.transactions.splice(idx, 1);
+      saveState();
+      renderIqdDebts();
+      renderOverview();
+    }
+
+    // =========================================================================
+    // ADD / EDIT / DELETE AGENT MODAL (USD or IQD)
+    // =========================================================================
+    function openAddAgentModal(currency) {
+      document.getElementById('agentCurrencyInput').value = currency;
+      document.getElementById('agentModeInput').value = 'add';
+      document.getElementById('agentOriginalNameInput').value = '';
+      document.getElementById('agentModalTitle').textContent = 'إضافة وكيل / عميل جديد';
+      document.getElementById('agentSubmitBtn').textContent = 'إضافة';
+      document.getElementById('agentNameInput').value = '';
+      openModal('agentModal');
+    }
+
+    function openEditAgentModal(currency) {
+      if (currency === 'usd') {
+        if (state.usdDebts.activeView === 'ALL') {
+          const firstAgent = (state.usdDebts.agents || [])[0];
+          if (firstAgent) {
+            state.usdDebts.activeView = firstAgent.name;
+            saveState();
+            renderUsdDebts();
+          } else {
+            showToast('لا يوجد وكيل محدد لتعديل اسمه', 'info');
+            return;
+          }
+        }
+        const agent = getUsdAgentByName(state.usdDebts.activeView);
+        if (!agent) return;
+        document.getElementById('agentCurrencyInput').value = 'usd';
+        document.getElementById('agentModeInput').value = 'edit';
+        document.getElementById('agentOriginalNameInput').value = agent.name;
+        document.getElementById('agentModalTitle').textContent = 'تعديل اسم الوكيل (دولار)';
+        document.getElementById('agentSubmitBtn').textContent = 'حفظ التعديل';
+        document.getElementById('agentNameInput').value = agent.name;
+        openModal('agentModal');
+      } else {
+        const agent = getActiveIqdAgent();
+        if (!agent) {
+          showToast('لا يوجد وكيل محدد لتعديل اسمه', 'info');
+          return;
+        }
+        document.getElementById('agentCurrencyInput').value = 'iqd';
+        document.getElementById('agentModeInput').value = 'edit';
+        document.getElementById('agentOriginalNameInput').value = agent.name;
+        document.getElementById('agentModalTitle').textContent = 'تعديل اسم الوكيل (دينار عراقي)';
+        document.getElementById('agentSubmitBtn').textContent = 'حفظ التعديل';
+        document.getElementById('agentNameInput').value = agent.name;
+        openModal('agentModal');
+      }
+    }
+
+    function openDeleteAgentModal(currency) {
+      if (currency === 'usd') {
+        if (state.usdDebts.activeView === 'ALL') {
+          showToast('يرجى اختيار وكيل محدد لحذفه', 'info');
+          return;
+        }
+        const agent = getUsdAgentByName(state.usdDebts.activeView);
+        if (!agent) return;
+        document.getElementById('deleteAgentCurrencyInput').value = 'usd';
+        document.getElementById('deleteAgentNameInput').value = agent.name;
+        document.getElementById('deleteAgentMessage').textContent =
+          `هل أنت متأكد من حذف الوكيل "${agent.name}" وجميع حركاته المسجلة بالدولار ($)?`;
+        openModal('deleteAgentModal');
+      } else {
+        const agent = getActiveIqdAgent();
+        if (!agent) {
+          showToast('لا يوجد وكيل محدد لحذفه', 'info');
+          return;
+        }
+        document.getElementById('deleteAgentCurrencyInput').value = 'iqd';
+        document.getElementById('deleteAgentNameInput').value = agent.name;
+        document.getElementById('deleteAgentMessage').textContent =
+          `هل أنت متأكد من حذف الوكيل "${agent.name}" وجميع حركاته المسجلة بالدينار العراقي (د.ع)?`;
+        openModal('deleteAgentModal');
+      }
+    }
+
+    function confirmDeleteAgent() {
+      const currency = document.getElementById('deleteAgentCurrencyInput').value;
+      const targetName = document.getElementById('deleteAgentNameInput').value;
+      if (!targetName) return;
+
+      if (currency === 'usd') {
+        state.usdDebts.agents = (state.usdDebts.agents || []).filter(a => a.name !== targetName);
+        if (state.usdDebts.activeView === targetName) {
+          state.usdDebts.activeView = state.usdDebts.agents.length > 0 ? 'ALL' : '';
+        }
+        saveState();
+        closeModal('deleteAgentModal');
+        renderUsdDebts();
+        renderOverview();
+        showToast(`تم حذف الوكيل "${targetName}"`, 'success');
+      } else {
+        state.iqdDebts.agents = (state.iqdDebts.agents || []).filter(a => a.name !== targetName);
+        if (state.iqdDebts.activeAgent === targetName) {
+          state.iqdDebts.activeAgent = state.iqdDebts.agents.length > 0 ? state.iqdDebts.agents[0].name : '';
+        }
+        saveState();
+        closeModal('deleteAgentModal');
+        renderIqdDebts();
+        renderOverview();
+        showToast(`تم حذف الوكيل "${targetName}"`, 'success');
+      }
+    }
+
+    function handleAgentSubmit(e) {
+      e.preventDefault();
+      const currency = document.getElementById('agentCurrencyInput').value;
+      const mode = document.getElementById('agentModeInput').value;
+      const originalName = document.getElementById('agentOriginalNameInput').value;
+      const name = document.getElementById('agentNameInput').value.trim();
+      if (!name) return;
+
+      if (currency === 'usd') {
+        if (mode === 'edit') {
+          const target = getUsdAgentByName(originalName);
+          if (!target) return;
+          const duplicate = (state.usdDebts.agents || []).some(a => a.name === name && a.name !== originalName);
+          if (duplicate) {
+            showToast('يوجد وكيل آخر بهذا الاسم بالفعل', 'error');
+            return;
+          }
+          target.name = name;
+          state.usdDebts.activeView = name;
+          saveState();
+          closeModal('agentModal');
+          renderUsdDebts();
+          renderOverview();
+          showToast('تم تحديث اسم الوكيل بنجاح', 'success');
+          return;
+        }
+
+        let existing = state.usdDebts.agents.find(a => a.name === name);
+        if (!existing) {
+          existing = { name, openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] };
+          state.usdDebts.agents.push(existing);
+        }
+        state.usdDebts.activeView = name;
+        saveState();
+        closeModal('agentModal');
+        renderUsdDebts();
+        renderOverview();
+        showToast('تمت إضافة الوكيل بنجاح', 'success');
+      } else {
+        if (mode === 'edit') {
+          const target = (state.iqdDebts.agents || []).find(a => a.name === originalName);
+          if (!target) return;
+          const duplicate = (state.iqdDebts.agents || []).some(a => a.name === name && a.name !== originalName);
+          if (duplicate) {
+            showToast('يوجد وكيل آخر بهذا الاسم بالفعل', 'error');
+            return;
+          }
+          target.name = name;
+          state.iqdDebts.activeAgent = name;
+          saveState();
+          closeModal('agentModal');
+          renderIqdDebts();
+          renderOverview();
+          showToast('تم تحديث اسم الوكيل بنجاح', 'success');
+          return;
+        }
+
+        let existing = state.iqdDebts.agents.find(a => a.name === name);
+        if (!existing) {
+          existing = { name, openingPurchaseAdj: 0, openingPaymentAdj: 0, transactions: [] };
+          state.iqdDebts.agents.push(existing);
+        }
+        state.iqdDebts.activeAgent = name;
+        saveState();
+        closeModal('agentModal');
+        renderIqdDebts();
+        renderOverview();
+        showToast('تمت إضافة الوكيل بنجاح', 'success');
+      }
+    }
+
+    // =========================================================================
+    // 4. OVERVIEW / DASHBOARD LOGIC
+    // =========================================================================
+    function renderOverview() {
+      const invRem = state.inventory.useSheetTotals
+        ? state.inventory.sheetTotals.remaining
+        : state.inventory.items.reduce((s, i) => s + (Number(i.remaining) || 0), 0);
+      const invPur = state.inventory.useSheetTotals
+        ? state.inventory.sheetTotals.purchased
+        : state.inventory.items.reduce((s, i) => s + (Number(i.purchased) || 0), 0);
+      const invSold = state.inventory.useSheetTotals
+        ? state.inventory.sheetTotals.sold
+        : state.inventory.items.reduce((s, i) => s + (Number(i.sold) || 0), 0);
+
+      document.getElementById('dashInvRemaining').textContent = formatNumber(invRem);
+      document.getElementById('dashInvPurchased').textContent = formatNumber(invPur);
+      document.getElementById('dashInvSold').textContent = formatNumber(invSold);
+
+      const usdTotals = computeUsdOverallTotals();
+      document.getElementById('dashUsdTotal').textContent = formatUSD(usdTotals.remaining);
+
+      const activeAgent = getActiveIqdAgent();
+      if (activeAgent) {
+        const totals = computeIqdAgentTotals(activeAgent);
+        document.getElementById('dashIqdRemaining').textContent = formatIQD(totals.remaining);
+        document.getElementById('dashIqdPurchased').textContent = formatNumber(totals.totalPurchase);
+        document.getElementById('dashIqdPaid').textContent = formatNumber(totals.totalPayment);
+      }
+
+      const tbody = document.getElementById('overviewIqdAgentsBody');
+      if (tbody) {
+        tbody.innerHTML = state.iqdDebts.agents.map(a => {
+          const t = computeIqdAgentTotals(a);
+          return `
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-extrabold text-slate-900">${escapeHtml(a.name)}</td>
+              <td class="py-3 px-4 text-center font-bold text-slate-800 tabular-nums">${formatIQD(t.totalPurchase)}</td>
+              <td class="py-3 px-4 text-center font-bold text-emerald-700 tabular-nums">${formatIQD(t.totalPayment)}</td>
+              <td class="py-3 px-4 text-center font-extrabold text-red-600 tabular-nums">${formatIQD(t.remaining)}</td>
+              <td class="py-3 px-4 text-center">
+                <button
+                  onclick="selectIqdAgent('${escapeJsAttr(a.name)}'); switchTab('iqd');"
+                  class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-950 cursor-pointer"
+                >
+                  فتح الكشف
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    // =========================================================================
+    // BACKUP / EXPORT / RESET
+    // =========================================================================
+    function exportJSON() {
+      try {
+        const jsonStr = JSON.stringify(state, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `omar-alsajer-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('تم تصدير النسخة الاحتياطية JSON', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر تصدير ملف JSON', 'error');
+      }
+    }
+
+    function exportCSV() {
+      try {
+        const lines = [];
+        lines.push('=== جرد المخزن - محل عمر الساجر للزي العربي ===');
+        lines.push('النوع,الباقي في المخزن,عدد الشراء,عدد البيع');
+        state.inventory.items.forEach(item => {
+          lines.push(`"${item.name}",${item.remaining},${item.purchased},${item.sold}`);
+        });
+
+        lines.push('');
+        lines.push('=== الديون بالدولار ($) ===');
+        const usdOverall = computeUsdOverallTotals();
+        lines.push(`مجموع مبلغ الشراء ($),${usdOverall.totalPurchase}`);
+        lines.push(`مجموع التسديد ($),${usdOverall.totalPayment}`);
+        lines.push(`الباقي ($),${usdOverall.remaining}`);
+
+        lines.push('');
+        lines.push('=== الديون بالدينار العراقي (د.ع) ===');
+        lines.push('اسم الوكيل,مجموع مبلغ الشراء,مجموع التسديد,الباقي');
+        state.iqdDebts.agents.forEach(agent => {
+          const t = computeIqdAgentTotals(agent);
+          lines.push(`"${agent.name}",${t.totalPurchase},${t.totalPayment},${t.remaining}`);
+        });
+
+        const BOM = '\uFEFF';
+        const blob = new Blob([BOM + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `omar-alsajer-report-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('تم تصدير التقرير بصيغة CSV بنجاح', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر تصدير ملف CSV', 'error');
+      }
+    }
+
+    function openResetModal() {
+      openModal('resetModal');
+    }
+
+    function confirmResetData() {
+      state = createInitialData();
+      saveState();
+      if (typeof window.pushStateToCloud === 'function') {
+        window.pushStateToCloud(true);
+      }
+      closeModal('resetModal');
+      switchTab(state.activeTab || 'inventory');
+      showToast('تمت استعادة البيانات الأصلية من جداول الإكسل', 'success');
+    }
+
+    // =========================================================================
+    // MODAL & UTILITY HELPERS
+    // =========================================================================
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function escapeJsAttr(str) {
+      return String(str ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    // Initialize application on DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialTab = state.activeTab || 'inventory';
+      switchTab(initialTab);
+    });
+  </script>
+</body>
+</html>
